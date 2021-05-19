@@ -1,0 +1,38 @@
+version: '3'
+services:
+  server:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        project: ./cmd/server/
+    environment:
+      - PORT=9000
+    ports:
+      - 8001:9000
+    restart: on-failure
+    volumes:
+      - server_vol:/usr/src/server/
+    networks:
+      - monorepo_net
+  client:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        project: ./cmd/client/
+    environment:
+      - PORT=9000
+    restart: on-failure
+    volumes:
+      - client_vol:/usr/src/client/
+    networks:
+      - monorepo_net
+
+volumes:
+  server_vol:
+  client_vol:
+
+networks:
+  monorepo_net:
+    driver: bridge
