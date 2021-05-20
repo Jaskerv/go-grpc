@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"github/Jaskerv/go-grpc/pkg/chat"
-	"log"
+	"github/Jaskerv/go-grpc/pkg/logger"
 	"os"
 
 	"google.golang.org/grpc"
@@ -13,14 +13,14 @@ func main() {
 	var SERVER_ADDRESS string
 
 	if SERVER_ADDRESS = os.Getenv("SERVER_ADDRESS"); SERVER_ADDRESS == "" {
-		log.Fatal("PORT not defined")
+		logger.Logger.Fatal("PORT not defined")
 	}
 
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(SERVER_ADDRESS, grpc.WithInsecure())
 
 	if err != nil {
-		log.Fatalf("Failed to connect: %s", err)
+		logger.Logger.Fatalf("Failed to connect: %s", err)
 	}
 	defer conn.Close()
 
@@ -32,8 +32,8 @@ func main() {
 
 	response, err := chatService.SayHello(context.Background(), &message)
 	if err != nil {
-		log.Fatalf("Error when calling SayHello: %s", err)
+		logger.Logger.Fatalf("Error when calling SayHello: %s", err)
 	}
 
-	log.Printf("Response from Server: %s", response.Body)
+	logger.Logger.Infof("Response from Server: %s", response.Body)
 }
