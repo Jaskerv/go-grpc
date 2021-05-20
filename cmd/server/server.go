@@ -18,14 +18,15 @@ func main() {
 
 	listen, err := net.Listen("tcp", ":"+PORT)
 	if err != nil {
-		log.Fatalf("Failed to listen to port 9000: %v", err)
+		log.Fatalf("Failed to listen to port %v: %v", PORT, err)
 	}
 
 	chatServer := chat.Server{}
 	grpcServer := grpc.NewServer()
 	chat.RegisterChatServiceServer(grpcServer, &chatServer)
 
+	log.Printf("Starting Server on port: %v 🚀", PORT)
 	if err := grpcServer.Serve(listen); err != nil {
-		log.Fatalf("Failed to serve on port 9000: %v", err)
+		log.Fatalf("Failed to serve on port %v: %v", PORT, err)
 	}
 }

@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   server:
     build:
@@ -7,14 +7,15 @@ services:
       args:
         project: ./cmd/server/
     environment:
-      - PORT=9000
+      - PORT=9080
     ports:
-      - 8001:9000
+      - 9080:9080
     restart: on-failure
     volumes:
       - server_vol:/usr/src/server/
     networks:
       - monorepo_net
+
   client:
     build:
       context: ./
@@ -22,7 +23,9 @@ services:
       args:
         project: ./cmd/client/
     environment:
-      - PORT=9000
+      - SERVER_ADDRESS=server:9080
+    depends_on:
+      - server
     restart: on-failure
     volumes:
       - client_vol:/usr/src/client/

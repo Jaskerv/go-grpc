@@ -10,14 +10,14 @@ import (
 )
 
 func main() {
-	var PORT string
+	var SERVER_ADDRESS string
 
-	if PORT = os.Getenv("PORT"); PORT == "" {
+	if SERVER_ADDRESS = os.Getenv("SERVER_ADDRESS"); SERVER_ADDRESS == "" {
 		log.Fatal("PORT not defined")
 	}
 
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial(":"+PORT, grpc.WithInsecure())
+	conn, err := grpc.Dial(SERVER_ADDRESS, grpc.WithInsecure())
 
 	if err != nil {
 		log.Fatalf("Failed to connect: %s", err)
